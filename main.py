@@ -12,10 +12,10 @@ sta.disconnect()      # For ESP8266
 
 espn = espnow.ESPNow() # prepare wireless comms
 espn.active(True)
-p1 = b'\xa8B\xe3\x91Qh'   # MAC address of peers' wifi interface
-p2 = b'\xa8B\xe3\x91Qh'
-p3 = b'\xa8B\xe3\x91Qh'
-p4 = b'\xa8B\xe3\x91Qh'
+p1 = b'0v\xf5\xa6Mh'   # MAC address of peers' wifi interface
+p2 = b'0v\xf5\xa6Mh'
+p3 = b'0v\xf5\xa6Mh'
+p4 = b'0v\xf5\xa6Mh'
   
 
 pList = [p1, p2, p3, p4] # add peers here
@@ -44,15 +44,15 @@ bRDisable = 0
 while 1:
     bL = 1-left.value() # [set up vars per 50ms frame]
     bR = 1-right.value() # invert values so 1 = activated instead of off
-    A = clamp(a.read()/3200, 0, 1) # convert to % flex
-    B = clamp(b.read()/3200, 0, 1)
-    C = clamp(c.read()/3200, 0, 1)
-    D = clamp(d.read()/3200, 0, 1)
+    A = clamp(a.read()/3500, 0, 1) # convert to % flex
+    B = clamp(b.read()/3500, 0, 1)
+    C = clamp(c.read()/3500, 0, 1)
+    D = clamp(d.read()/3500, 0, 1)
 
     print("Left: "+str(bL))
     print("Right: "+str(bR))
     print(f"{A}\n{B}\n{C}\n{D}")
-    print(pIndex+"\n")
+    print(pIndex)
     
     if bL:
         if bLDisable == 0:
@@ -77,11 +77,12 @@ while 1:
     if exitNum >= 100: #lazy? yes | works? yes
         break
     
-    espn.send(pList[pIndex], f"{A}:{B}:{C}:{D}".encode("ascii")) # send usable data
-    
-    sleep(50)
+    espn.send(pList[pIndex], f"{A}:{B}:{C}:{D}") # send usable data
 
 #pLowerPWR = machine.Pin(21, machine.Pin.OUT) # init bottom servo
 #pLowerPWR.value(1) # applies to a pnp, so it's disabled
 #pLowerPWM = machine.PWM(22, freq=50, duty_u16=4915)
 #lowerPos = 90
+
+            
+        
